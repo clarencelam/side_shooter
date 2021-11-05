@@ -43,6 +43,9 @@ class SideShooter:
 			if bullet.x > self.settings.screen_width:
 				self.bullets.remove(bullet)
 
+		#check for bullet /submarine collissions
+		collisions = pygame.sprite.groupcollide(self.bullets, self.submarines, False, True)
+
 	def _check_sub_edges(self):
 		""" for submarines, check if they hit the left, if so, remove"""
 		for submarine in self.submarines:
@@ -50,6 +53,14 @@ class SideShooter:
 			if submarine.check_edges() == True:
 				the_subs.remove(submarine)
 				self.submarines = the_subs
+
+	def _update_submarines(self):
+		""" update submarine objects"""
+		self._check_sub_edges()
+		self.submarines.update()
+
+		if not self.submarines:
+			self._create_fleet()
 
 	def _update_screen(self):
 		""" update images on screen """
@@ -68,7 +79,7 @@ class SideShooter:
 		while True:
 			self._check_events()
 			self.ship.update()
-			self.submarines.update()
+			self._update_submarines()
 			self._update_bullets()
 			self._update_screen()
 
