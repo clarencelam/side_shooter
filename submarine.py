@@ -29,3 +29,9 @@ class Submarine(Sprite):
 		""" move the submarines to the left """
 		self.x = self.x - self.movement_speed
 		self.rect.x = self.x
+
+	def check_edges(self):
+		""" check if the submarine has hit the left side of the screen """
+		self.screen_rect = self.screen.get_rect
+		if self.rect.left <= 0:
+			return True

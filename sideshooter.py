@@ -43,6 +43,13 @@ class SideShooter:
 			if bullet.x > self.settings.screen_width:
 				self.bullets.remove(bullet)
 
+	def _check_sub_edges(self):
+		""" for submarines, check if they hit the left, if so, remove"""
+		for submarine in self.submarines:
+			the_subs = self.submarines
+			if submarine.check_edges() == True:
+				the_subs.remove(submarine)
+				self.submarines = the_subs
 
 	def _update_screen(self):
 		""" update images on screen """
