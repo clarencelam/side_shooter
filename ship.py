@@ -9,6 +9,7 @@ class Ship:
 		""" initialize ship """
 		self.screen = ss_game.screen
 		self.screen_rect = ss_game.screen.get_rect()
+		self.settings = Settings()
 
 		# Load ship image and get its rect
 		sharkimg = pygame.image.load('images/shark.bmp')
@@ -22,6 +23,7 @@ class Ship:
 
 		self.moving_up = False
 		self.moving_down = False
+
 
 	def update(self):
 		""" update the ships location given the current actions"""

@@ -5,6 +5,7 @@ from bullet import Bullet
 from ship import Ship
 from submarine import Submarine
 from random import randint
+from gamestats import GameStats
 
 
 class SideShooter:
@@ -22,6 +23,8 @@ class SideShooter:
 		self.bullets = pygame.sprite.Group()
 		self.submarines = pygame.sprite.Group()
 
+		self.gamestats = GameStats(self)
+
 		self._create_fleet()
 
 		pygame.display.set_caption("Side Shooter")
@@ -34,6 +37,10 @@ class SideShooter:
 				self._check_keydown_events(event)
 			if event.type == pygame.KEYUP:
 				self._check_keyup_events(event)
+
+	def _check_ship_sub_collisions(self):
+		""" check for ship / submarine collisions """
+		collisions = pygame.sprite.groupcollide(self.bullets, self.submarines, False, True)
 
 	def _update_bullets(self):
 		""" update positions of bullets and get rid of old bullets """
@@ -54,10 +61,19 @@ class SideShooter:
 				the_subs.remove(submarine)
 				self.submarines = the_subs
 
+	def _ship_hit(self):
+		""" perform appropriate actions if ship is hit"""
+		self.gamestats.ship_lives -= 1
+		print("SHiP HIT!!")
+		print(self.gamestats.ship_lives)
+
 	def _update_submarines(self):
 		""" update submarine objects"""
 		self._check_sub_edges()
 		self.submarines.update()
+
+		if pygame.sprite.spritecollideany(self.ship , self.submarines):
+			self._ship_hit()
 
 		if not self.submarines:
 			self._create_fleet()
