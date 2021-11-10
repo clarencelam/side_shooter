@@ -1,11 +1,16 @@
 import sys, pygame
+
 from pygame.sprite import Sprite
+from random import randint
+from gamestats import GameStats
+from time import sleep
+
 from settings import Settings
 from bullet import Bullet
 from ship import Ship
 from submarine import Submarine
-from random import randint
-from gamestats import GameStats
+
+
 
 
 class SideShooter:
@@ -63,9 +68,18 @@ class SideShooter:
 
 	def _ship_hit(self):
 		""" perform appropriate actions if ship is hit"""
-		self.gamestats.ship_lives -= 1
-		print("SHiP HIT!!")
-		print(self.gamestats.ship_lives)
+		if self.gamestats.ship_lives > 0:
+			self.gamestats.ship_lives -= 1
+			print(self.gamestats.ship_lives)
+
+			#Erase current bullets
+			self.bullets.empty()
+			self.submarines.empty()
+
+			#Pause
+			sleep(0.5)
+
+
 
 	def _update_submarines(self):
 		""" update submarine objects"""
